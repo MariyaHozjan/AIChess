@@ -1,18 +1,16 @@
 //
 // Created by Maša Hozjan on 21. 05. 25.
 //
-#include "../include/Pawn.h"
+#include "Pawn.h"
 
-Pawn::Pawn(Color c) : Piece(c) {}
-
-std::string Pawn::getSymbol() const {
+std::string_view Pawn::getSymbol() const {
     return getColor() == Color::WHITE ? "♙" : "♟";
 }
 
 bool Pawn::isValidMove(Position from, Position to,
-                       const std::unique_ptr<Piece> board[8][8]) const {
+                       const std::array<std::array<std::unique_ptr<Piece>, 8>, 8>& board) const {
     int direction = (getColor() == Color::WHITE) ? -1 : 1; // white moves up, black down
-    int startRow = (getColor() == Color::WHITE) ? 6 : 1;
+    uint8_t startRow = (getColor() == Color::WHITE) ? 6 : 1;
 
     // Move forward by 1 square
     if (to.col == from.col && to.row == from.row + direction) {

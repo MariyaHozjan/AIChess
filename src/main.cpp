@@ -37,7 +37,7 @@ int main() {
         Position from {.row = fromRow, .col = fromCol};
         Position to {.row = toRow, .col = toCol};
 
-        Piece* selected = board.getPiece(from.row, from.col);
+        Piece* selected = board.getPiece(from);
         if (!selected) {
             std::cout << "No piece at source square.\n";
             continue;
@@ -52,6 +52,14 @@ int main() {
             std::cout << "Invalid move.\n";
             continue;
         }
+
+        Color opponent = (currentTurn == Color::WHITE) ? Color::BLACK : Color::WHITE;
+        if (!board.isKingAlive(opponent)) {
+            board.printBoard();
+            std::cout << (currentTurn == Color::WHITE ? "White" : "Black") << " wins! The king was captured.\n";
+            break;
+        }
+
 
         currentTurn = (currentTurn == Color::WHITE) ? Color::BLACK : Color::WHITE;
         std::cout << "Turn switched. Next: " << (currentTurn == Color::WHITE ? "White" : "Black") << "\n";

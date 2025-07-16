@@ -18,10 +18,10 @@ public:
 
     virtual ~Piece() = default;
 
-    virtual std::string getSymbol() const = 0;
+    virtual std::string_view getSymbol() const = 0;
 
     virtual bool isValidMove(Position from, Position to,
-        const std::unique_ptr<Piece> board[8][8]) const = 0;
+        const std::array<std::array<std::unique_ptr<Piece>, 8>, 8>& board) const = 0;
 
     Color getColor() const;
 private:

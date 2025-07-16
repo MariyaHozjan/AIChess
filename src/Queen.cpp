@@ -4,15 +4,13 @@
 
 #include "Queen.h"
 
-Queen::Queen(Color c) : Piece(c) {}
-
-std::string Queen::getSymbol() const {
+std::string_view Queen::getSymbol() const {
     return getColor() == Color::WHITE ? "♕" : "♛";
 }
 
-bool Queen::isValidMove(Position from, Position to, const std::unique_ptr<Piece> board[8][8]) const {
-    int rowDiff = abs(from.row - to.row);
-    int colDiff = abs(from.col - to.col);
+bool Queen::isValidMove(Position from, Position to, const std::array<std::array<std::unique_ptr<Piece>, 8>, 8>& board) const {
+    uint8_t rowDiff = abs(from.row - to.row);
+    uint8_t colDiff = abs(from.col - to.col);
 
     if (rowDiff != colDiff && from.row != to.row && to.col != to.col) {
         return false;

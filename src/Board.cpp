@@ -1,20 +1,20 @@
 //
 // Created by Maša Hozjan on 21. 05. 25.
 //
-#include "../include/Board.h"
+#include "Board.h"
 #include <iostream>
-#include "../include/Pawn.h"
-#include "../include/Knight.h"
-#include "../include/Rook.h"
-#include "../include/King.h"
-#include "../include/Queen.h"
-#include "../include/Bishop.h"
+#include "Pawn.h"
+#include "Knight.h"
+#include "Rook.h"
+#include "King.h"
+#include "Queen.h"
+#include "Bishop.h"
 
 // Constructor: sets all squares to empty
 Board::Board() {
     // Always use curly brackets
-    for (int i = 0; i < 8; ++i) {
-        for (int j = 0; j < 8; ++j) {
+    for (size_t i = 0; i < 8; ++i) {
+        for (size_t j = 0; j < 8; ++j) {
             squares[i][j] = nullptr;
         }
     }
@@ -22,7 +22,7 @@ Board::Board() {
 
 
 void Board::setupBoard() {
-    for (int i = 0; i < 8; i++) {
+    for (size_t i = 0; i < 8; i++) {
         squares[0][0] = std::make_unique<Rook>(Color::BLACK);
         squares[0][1] = std::make_unique<Knight>(Color::BLACK);
         squares[0][2] = std::make_unique<Bishop>(Color::BLACK);
@@ -45,11 +45,11 @@ void Board::setupBoard() {
 }
 
 // Print the board to the console
-void Board::printBoard() {
-    for (int i = 0; i < 8; ++i) { //int i = 0; i < 8; ++i
+void Board::printBoard() const {
+    for (size_t i = 0; i < 8; ++i) { //int i = 0; i < 8; ++i
         std::cout << 8 - i << " "; // Row numbers (8 at top)
-        for (int j = 0; j < 8; ++j) {
-            if (squares[i][j])
+        for (size_t j = 0; j < 8; ++j) {
+            if (squares[i][j] && squares[i][j].get())
                 std::cout << squares[i][j]->getSymbol() << " ";
             else
                 std::cout << ". ";
@@ -60,7 +60,9 @@ void Board::printBoard() {
 }
 
 bool Board::movePiece(Position from, Position to) {
-    if (!squares[from.row][from.col]) return false;
+    if (!squares[from.row][from.col]) {
+        return false;
+    }
 
     if (!squares[from.row][from.col] -> isValidMove(from, to, squares)) {
         return false;
@@ -71,9 +73,19 @@ bool Board::movePiece(Position from, Position to) {
     return true;
 }
 
-Piece* Board::getPiece(int row, int col) {
-    return squares[row][col].get(); // get raw pointer from unique_ptr
+Piece* Board::getPiece(Position from) {
+    return squares[from.row][from.col].get(); // get raw pointer from unique_ptr
 }
 
+bool Board::isKingAlive(Color color) const {
+    for (size_t i = 0; i < 8; ++i) {
+        for (size_t j = 0; j < 8; ++j) {
+            if (squares[i][j] && squares[i][j]->getSymbol() == (color == Color::WHITE ? "♔" : "♚")) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 

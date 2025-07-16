@@ -1,7 +1,7 @@
 //
 // Created by Maša Hozjan on 21. 05. 25.
 //
-#include "../include/Piece.h"
+#include "Piece.h"
 
 Piece::Piece(Color c) : m_color(c) {}
 

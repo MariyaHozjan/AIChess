@@ -10,9 +10,10 @@
 
 class Pawn : public Piece {
 public:
-    Pawn(Color c);
-    std::string getSymbol() const override;
+    using Piece::Piece;
 
-    bool isValidMove(Position from, Position to, const std::unique_ptr<Piece> board[8][8]) const override;
+    std::string_view getSymbol() const override;
+
+    bool isValidMove(Position from, Position to, const std::array<std::array<std::unique_ptr<Piece>, 8>, 8>& board) const override;
 };
 #endif //PAWN_H
