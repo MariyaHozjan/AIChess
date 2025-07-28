@@ -8,6 +8,8 @@ find_package(spdlog CONFIG REQUIRED)
 
 file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
 
-add_executable(chess ${SOURCE_FILES})
+add_executable(chess ${SOURCE_FILES}
+        src/BitboardChess.cpp
+        include/BitboardChess.h)
 target_include_directories(chess PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(chess PRIVATE fmt::fmt spdlog::spdlog)
